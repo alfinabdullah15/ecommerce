@@ -8,18 +8,18 @@
 
         <li class="nav-title">MANAJEMEN PRODUK</li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('category.index') }}">
                 <i class="nav-icon icon-drop"></i> Kategori
             </a>
         </li>
         <li class="nav-item nav-dropdown">
             <a class="nav-link nav-dropdown-toggle" href="#">
-                <i class="nav-icon icon-settings"></i> Pengaturan
+                <i class="nav-icon icon-settings"></i> Dropdown Menu
             </a>
             <ul class="nav-dropdown-items">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <i class="nav-icon icon-puzzle"></i> Toko
+                        <i class="nav-icon icon-puzzle"></i> Dropdown 1
                     </a>
                 </li>
             </ul>

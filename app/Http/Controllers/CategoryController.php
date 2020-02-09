@@ -25,6 +25,28 @@ class CategoryController extends Controller
         //KEMUDIAN PASSING DATA DARI VARIABLE $category & $parent KE VIEW AGAR DAPAT DIGUNAKAN PADA VIEW TERKAIT
         return view('categories.index', compact('category', 'parent'));
     }
-  
-    //METHOD LAINNYA DISINI JIKA ADA
+
+    public function store(Request $request)
+    {
+        //JADI KITA VALIDASI DATA YANG DITERIMA, DIMANA NAME CATEGORY WAJIB DIISI
+        //TIPENYA ADA STRING DAN MAX KARATERNYA ADALAH 50 DAN BERSIFAT UNIK
+        //UNIK MAKSUDNYA JIKA DATA DENGAN NAMA YANG SAMA SUDAH ADA MAKA VALIDASINYA AKAN MENGEMBALIKAN ERROR
+        $this->validate($request, [
+            'name' => 'required|string|max:50|unique:categories'
+        ]);
+
+        //FIELD slug AKAN DITAMBAHKAN KEDALAM COLLECTION $REQUEST
+        $request->request->add(['slug' => $request->name]);
+    
+        //SEHINGGA PADA BAGIAN INI KITA TINGGAL MENGGUNAKAN $request->except()
+        //YAKNI MENGGUNAKAN SEMUA DATA YANG ADA DIDALAM $REQUEST KECUALI INDEX _TOKEN
+        //FUNGSI REQUEST INI SECARA OTOMATIS AKAN MENJADI ARRAY
+        //CATEGORY::CREATE ADALAH MASS ASSIGNMENT UNTUK MEMBERIKAN INSTRUKSI KE MODEL AGAR MENAMBAHKAN DATA KE TABLE TERKAIT
+        Category::create($request->except('_token'));
+        
+        //APABILA BERHASIL, MAKA REDIRECT KE HALAMAN LIST KATEGORI
+        //DAN MEMBUAT FLASH SESSION MENGGUNAKAN WITH()
+        //JADI WITH() DISINI BERBEDA FUNGSINYA DENGAN WITH() YANG DISAMBUNGKAN DENGAN MODEL
+        return redirect(route('category.index'))->with(['success' => 'Kategori Baru Ditambahkan!']);
+    }
 }

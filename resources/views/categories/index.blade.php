@@ -9,7 +9,7 @@
 <main class="main">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">Home</li>
-        <li class="breadcrumb-item active">Kategori</li>
+        <li class="breadcrumb-item active">Category</li>
     </ol>
     <div class="container-fluid">
         <div class="animated fadeIn">
@@ -19,11 +19,33 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Kategori Baru</h4>
+                            <h4 class="card-title">Add Category</h4>
                         </div>
                         <div class="card-body">
-                          
-                            <!-- PADA SUB-CHAPTER SELANJUTNYA, KETIKA ADA INSTRUKSI UNTUK ME-REPLACE FORM INPUT NEW CATEGORY MAKA CARI KOMENTAR INI DAN REPLACE DENGAN CODE YANG ADA DISANA -->
+                            <form action="{{ route('category.store') }}" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="name">Category</label>
+                                    <input type="text" name="name" class="form-control" required>
+                                    <p class="text-danger">{{ $errors->first('name') }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="parent_id">Parent Category</label>
+                                      <!-- VARIABLE $PARENT PADA METHOD INDEX KITA GUNAKAN DISINI -->
+                                    <!-- UNTUK MENAMPILKAN DATA CATEGORY YANG PARENT_ID NYA NULL -->
+                                    <!-- UNTUK DIPILIH SEBAGAI PARENT TAPI SIFATNYA OPTIONAL -->
+                                    <select name="parent_id" class="form-control">
+                                        <option value="">None</option>
+                                        @foreach ($parent as $row)
+                                        <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <p class="text-danger">{{ $errors->first('name') }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-sm">Add</button>
+                                </div>
+                            </form>
                           
                         </div>
                     </div>
@@ -34,7 +56,7 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">List Kategori</h4>
+                            <h4 class="card-title">Category List</h4>
                         </div>
                         <div class="card-body">
                           	<!-- KETIKA ADA SESSION SUCCESS  -->
@@ -71,7 +93,7 @@
                                             <td>{{ $val->parent ? $val->parent->name:'-' }}</td>
                                           
                                             <!-- FORMAT TANGGAL KETIKA KATEGORI DIINPUT SESUAI FORMAT INDONESIA -->
-                                            <td>{{ $val->created_at->format('d-m-Y') }}</td>
+                                            <td>{{ $val->created_at->format('d-m-y H:i:s') }}</td>
                                             <td>
                                               
                                                 <!-- FORM ACTION UNTUK METHOD DELETE -->
