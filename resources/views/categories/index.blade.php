@@ -2,7 +2,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    <title>List Kategori</title>
+    <title>Category Management</title>
 @endsection
 
 @section('content')
